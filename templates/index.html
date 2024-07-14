@@ -3,72 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Marry Me?</title>
+    <title>Proposal</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f8f9fa;
             font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
         }
         .container {
-            text-align: center;
+            margin-top: 50px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
         }
         .buttons {
             margin-top: 20px;
         }
-        .btn {
+        .button {
             padding: 10px 20px;
-            margin: 10px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
         }
-        .btn-yes {
-            background-color: #28a745;
-            color: white;
-            border: none;
-        }
-        .btn-no {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            position: absolute;
+        .no-button {
+            position: relative;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="container">
-        <h1>Will You Marry Me?</h1>
+    <div class="container">
+        <h1>Will you marry me, Angel Godara?</h1>
+        <img src="{{ url_for('static', filename='photo.jpg') }}" alt="Our Photo">
         <div class="buttons">
-            <button class="btn btn-yes" onclick="showMessage()">Yes</button>
-            <button class="btn btn-no" id="noBtn">No</button>
+            <button class="button" id="yes-button" onclick="showCongrats()">Yes</button>
+            <button class="button no-button" id="no-button" onmouseover="moveNoButton()">No</button>
         </div>
-        <div id="message" style="margin-top: 20px; font-size: 24px;"></div>
+        <div id="congrats-message" style="display: none;">
+            <h2>Congratulations, My Wife!</h2>
+        </div>
     </div>
 
     <script>
-        function showMessage() {
-            document.querySelector('.container').innerHTML = '<div id="message" style="font-size: 24px;">Congratulations, my wife!</div>';
+        const yesButton = document.getElementById('yes-button');
+        const noButton = document.getElementById('no-button');
+        const congratsMessage = document.getElementById('congrats-message');
+
+        function showCongrats() {
+            congratsMessage.style.display = 'block';
+            yesButton.style.display = 'none';
+            noButton.style.display = 'none';
         }
 
-        document.getElementById('noBtn').addEventListener('mouseover', function() {
-            const btn = this;
-            const container = document.querySelector('.container');
-            const containerRect = container.getBoundingClientRect();
-            const btnRect = btn.getBoundingClientRect();
-            const maxTop = containerRect.height - btnRect.height;
-            const maxLeft = containerRect.width - btnRect.width;
-
-            // Calculate a new position with a minimum distance to "teleport"
-            const newTop = Math.random() * (maxTop - 20);
-            const newLeft = Math.random() * (maxLeft - 20);
-
-            btn.style.top = Math.max(0, newTop) + 'px';
-            btn.style.left = Math.max(0, newLeft) + 'px';
-        });
+        function moveNoButton() {
+            const x = Math.random() * (window.innerWidth - noButton.clientWidth);
+            const y = Math.random() * (window.innerHeight - noButton.clientHeight);
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        }
     </script>
 </body>
 </html>
